@@ -2,6 +2,7 @@
 The project is using Typescript as main language and not other dependencies on external libraries (everything is already included).
 
 # requirements
+root access
 ```
 apt update && apt upgrade -y && apt install nodejs npm apache2 php php-curl -y
 ```
@@ -11,6 +12,7 @@ The first step will be to compile the typescript code into javascript code so br
 You also need to build some files that are dynamically generated like the manifest ...
 This task is doable with :
 ```
+git clone https://github.com/ParsiCoin/webwallet && cd webwallet
 npm install
 nodejs ./node_modules/typescript/bin/tsc --project tsconfig.prod.json
 nodejs build.js
@@ -39,7 +41,7 @@ You will need to create this directory with the write permissions.
 # Cron task / Process
 Precomputed data are build by another process. This process will call the ParsiCoin daemon and compute blocks into chunks of blocks to reduce network latency.
 
-One way to handle this is by running a cron task each 10 minute with something like:
+One way to handle this is by running a cron task on /etc/crontab each 2 minutes with something like:
 ```
 */2 * * * * root curl https://wallet.domainname.com/api/blockchain.php?gen=1
 ```
