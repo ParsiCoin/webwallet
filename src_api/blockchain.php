@@ -240,12 +240,12 @@ if(getenv('generate') !== 'true'){
 	}
 	$startHeight = (int)$_GET['height'];
 	$realStartHeight = $startHeight;
-	$startHeight = floor($startHeight/100)*100;
-	$endHeight = $startHeight + 100;
+	$startHeight = floor($startHeight/20)*20;
+	$endHeight = $startHeight + 20;
 	if($startHeight < 0) $startHeight = 0;
 	
 	$blockchainHeight = getBlockchainHeight();
-	if($blockchainHeight === null) $blockchainHeight = $endHeight+100;
+	if($blockchainHeight === null) $blockchainHeight = $endHeight+20;
 	if($endHeight > $blockchainHeight){
 		$endHeight = $blockchainHeight;
 	}
@@ -284,9 +284,9 @@ if(getenv('generate') !== 'true'){
 	while(time() - $timeStart < 59*60){
 		$blockchainHeight = getBlockchainHeight();
 		$lastBlockCacheContent = null;
-		for($startHeight = $lastScanHeight; $startHeight <= $blockchainHeight; $startHeight += 100){
+		for($startHeight = $lastScanHeight; $startHeight <= $blockchainHeight; $startHeight += 20){
 			
-			$endHeight = $startHeight + 100;
+			$endHeight = $startHeight + 20;
 			$realStartHeight = $startHeight;
 			//	if($realStartHeight < 1) $realStartHeight = 1;
 			if($endHeight > $blockchainHeight){
@@ -299,7 +299,7 @@ if(getenv('generate') !== 'true'){
 			//		var_dump('==>',$lastBlockCacheContent,$cacheContent);
 			if($cacheContent === null){
 				if($realStartHeight > 1){
-					$lastBlockCacheContent = retrieveCache($realStartHeight-100, $realStartHeight, false);
+					$lastBlockCacheContent = retrieveCache($realStartHeight-20, $realStartHeight, false);
 					$decodedContent = json_decode($lastBlockCacheContent, true);
 					if(count($decodedContent) > 0){
 						$lastTr = $decodedContent[count($decodedContent) - 1];
@@ -333,7 +333,7 @@ if(getenv('generate') !== 'true'){
 		foreach($allBlocksFiles as $filename){
 			if($filename !== '.' && $filename !== '..'){
 				$blocksNumbers = explode('-', $filename);
-				if(count($blocksNumbers) === 2 && $blocksNumbers[1] % 100 !== 0){
+				if(count($blocksNumbers) === 2 && $blocksNumbers[1] % 20 !== 0){
 					if($blocksNumbers[1]+1  < $blockchainHeight){//to be sure if other client are using the last one
 						unlink($cacheLocation . '/' . $filename);
 					}
@@ -341,7 +341,7 @@ if(getenv('generate') !== 'true'){
 			}
 		}
 		
-		$lastScanHeight = floor($blockchainHeight/100)*100;
+		$lastScanHeight = floor($blockchainHeight/20)*20;
 		
 		file_put_contents('./lastRun.txt', time());
 		sleep(10);
