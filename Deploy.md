@@ -45,3 +45,7 @@ One way to handle this is by running a cron task on /etc/crontab each 2 minutes 
 ```
 */2 * * * * root curl https://wallet.domainname.com/api/blockchain.php?gen=1
 ```
+or :
+```
+* * * * * root cd /var/www/html/api && export generate=true && php blockchain.php
+```
